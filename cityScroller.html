@@ -1,0 +1,398 @@
+<html>
+	<head>
+		<title>CityScroller</title>
+		<script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
+		<script type="text/processing" data-processing-target="mycanvas">
+        // Declare and contruct two objects (h1, h2) from the class HorizontalLine 
+        
+        // Declare and contruct two objects (h1, h2) from the class HorizontalLine 
+        
+        HorizontalLine slowLine = new HorizontalLine(20, 2.0); 
+        
+        HorizontalLine fastLine = new HorizontalLine(50, 2.5);
+
+        Sky newSky = new Sky();
+
+        Skyline sky = new Skyline();
+
+        Road otherRoad = new Road (500);
+
+        sCar car = new sCar();
+
+        sCar car1 = new sCar();
+
+        sCar car2 = new sCar();
+
+        sCar car3 = new sCar();
+
+        sCarr carr = new sCarR();
+
+        sCarr carr1 = new sCarR();
+
+        sCarr carr2 = new sCarR();
+
+        sCarr carr3 = new sCarR();
+        
+        Building randomBuilding = new Building(0, 360, 400, 5);
+
+        Building otherBuilding = new Building(400, 300, 460, 5);
+
+        Building anotherBuilding = new Building (800, 250, 510, 5);
+
+        Building yetAnotherBuilding = new Building(-400, 400, 360, 5);
+
+        bigCar randomBigCar = new bigCar (700, 750);
+
+        Car randomCar = new Car(400, 762);
+
+        Road newRoad = new Road(785);
+
+        Mountain randomMountain = new Mountain (0, 800, 400);
+
+        Mountain mountain = new Mountain (-400, 400, 0);
+
+        Mountain otherMountain = new Mountain (-800, 0, -400);
+
+        
+        int WINDOW_WIDTH = 1000;
+        int WINDOW_HEIGHT = 800;
+        
+        int REFRESH_RATE_PER_SECOND = 30;
+        int GREY = 204;
+        //runs once at the start of the program 
+        void setup() 
+        {
+          size(WINDOW_WIDTH, WINDOW_HEIGHT);
+        
+          frameRate(REFRESH_RATE_PER_SECOND);//how often per second the draw function is called 
+        
+        }
+        
+        
+        //called repeatedly 
+        void draw() { 
+
+          background(75, 75, 75);
+        
+          slowLine.updateAndRedraw(); 
+        
+          fastLine.updateAndRedraw();  
+
+          randomMountain.drawMountain();
+
+          mountain.drawMountain();
+
+          otherMountain.drawMountain();
+
+          sky.moveSkyline();
+
+          otherRoad.drawRoad();
+
+          car.drawSCar();
+
+          car1.drawSCar();
+
+          car2.drawSCar();
+
+          car3.drawSCar();
+
+          carr.drawSCarR();
+
+          carr1.drawSCarR();
+
+          carr2.drawSCarR();
+
+          carr3.drawSCarR();
+
+          randomBuilding.drawBuilding();
+
+          otherBuilding.drawBuilding();
+
+          anotherBuilding.drawBuilding();
+
+          yetAnotherBuilding.drawBuilding();
+
+          newRoad.drawRoad();
+
+          randomBigCar.drawBigCar();
+
+          randomCar.drawCar();
+        
+        } 
+        
+         
+        
+        class HorizontalLine { 
+          
+          //attributes
+          float ypos, speed; 
+        
+          //constructor 
+          HorizontalLine (float y, float s) {  
+        
+            ypos = y; 
+        
+            speed = s; 
+        
+          } 
+          
+          void updateAndRedraw() {
+          	update();
+          	drawLine();
+          }
+          
+          void update() 
+          { 
+        
+            ypos += speed; 
+        
+            if (ypos > height) 
+            { 
+        
+              ypos = 0; 
+        
+            } 
+        
+        
+          } 
+          
+          void drawLine() 
+          {
+          	 line(0, ypos, width, ypos); 
+		  }
+        
+        }
+
+        class Road {
+          var y;
+
+          Road (var ht) {
+          y = ht;
+        }
+          void drawRoad() {
+            fill(50, 50, 50);
+            rect(0, y - 25, 1000, 40);
+            fill(255, 170, 0);
+            rect(0, y, 1000, 2);
+            }
+        }
+        void getRoadHeight(){
+          return Road.y;
+        }
+        class Building {
+           
+           var BuildingX, b1h, BuildingY, r, g, b, dY, speed;
+
+        	//constructor 
+        	Building(var xx, var yy, var bh, var sped){
+            BuildingX = xx;
+            speed = sped;
+            b1h = bh;
+            BuildingY = yy;
+            r = random(0, 255);
+            g = random(0, 255);
+            b = random(0, 255);
+            dy = BuildingX + 75;
+
+           }
+        	
+        	void drawBuilding() {
+              noStroke();
+              fill (r, g, b);
+              rect(BuildingX, BuildingY, 250, b1h);
+              fill (0, 0, 0);
+              rect(BuildingX + 75, BuildingY + b1h - 20, 12, 20);
+          
+            BuildingX += speed;
+            
+            if(BuildingX == 1500){
+              BuildingX = -500;
+            }
+          
+          }
+        
+        }
+        
+        class bigCar {
+          var x, y, r, g, b;
+
+          bigCar (var carX, var carY){
+            r = random(0, 255);
+            g = random(0, 255);
+            b = random(0, 255);
+            x = carX;
+            y = carY;
+          }
+
+          void drawBigCar(){
+            fill(r, g, b);
+            rect(x, y, 60, 27);
+            rect(x+15, y-15, 30, 15);
+            fill(0, 0, 0);
+            ellipse(x+15, y+30, 15,15);
+            ellipse(x+45, y+30, 15, 15);
+
+            x += 15;
+            if (x > 1000) {
+              x = -100;
+            }
+          }
+        }
+
+
+        class Car {
+          var x, y;
+
+          Car (var carX, var carY){
+            x = carX;
+            y = carY;
+          }
+
+          void drawCar(){
+            fill(255, 0, 0);
+            rect(x, y, 60, 27);
+            rect(x+15, y-15, 30, 15);
+            fill(0, 0, 0);
+            ellipse(x+15, y+30, 15,15);
+            ellipse(x+45, y+30, 15, 15);
+          }
+
+
+        }
+
+        class sCar {
+          var x, y, r, g, b;
+
+          sCar (){
+            x = random(-200, 600);
+            y = 490;
+            r = random(0, 255);
+            g = random(0, 255);
+            b = random(0, 255);
+          }
+
+          void drawSCar(){
+            fill(r,g,b);
+            rect(x, y-3, 20, 9);
+            rect(x+5, y-8, 10, 5);
+            fill(0, 0, 0);
+            ellipse(x+3, y+7, 5, 5);
+            ellipse(x+15, y+7, 5, 5);
+            x += 10;
+            if (x > 1000) {
+              x = -210;
+            }
+
+          }
+        }
+        
+        class sCarR {
+          var x, y, r, g, b;
+
+          sCarR (){
+            x = random(-100, 1000);
+            y = 490;
+            r = random(0, 255);
+            g = random(0, 255);
+            b = random(0, 255);
+          }
+
+          void drawSCarR(){
+            fill(r,g,b);
+            rect(x, y + 7, 20, 9);
+            rect(x+5, y+2, 10, 5);
+            fill(0, 0, 0);
+            ellipse(x+3, y+17, 5, 5);
+            ellipse(x+15, y+17, 5, 5);
+            x -= 10;
+            if (x < -100) {
+              x = 1100;
+            }
+
+          }
+        }
+        class Mountain {
+          var x1, x2, x3;
+
+          Mountain(var x, var xx, var xxx) {
+            x1 = x;
+            x2 = xx;
+            x3 = xxx;
+          }
+
+          void drawMountain() {
+            fill(22, 105, 5);
+            triangle(x1, 500, x2, 500, x3, 50);
+            x1++;
+            x2++;
+            x3++;
+
+            if (x1 == 1500) {
+              x1 = -1200;
+              x2 = -400;
+              x3 = -800;
+            }
+            }
+          }
+        
+
+        class Sky {
+          var x, y;
+
+          Sky(){
+            x = 0;
+            y = 0;
+          }
+
+          void drawSky() {
+            fill(75, 75, 255);
+            rect (x, y, 1000, 500);
+          }
+
+          
+              }
+
+        class Skyline {
+          var xpos, ht, rBW;
+          ArrayList<Building> buildingList;
+
+          Skyline() {
+            buildingList = new ArrayList<Building>();
+            xpos = 0;
+            ht = random(100, 500);
+            rBW = random(50, 200);
+            moveSkyline();
+
+          }
+          void moveSkyline(){
+            addBuilding();
+            xpos += 80;
+            rBW += 400;
+            if (xpos > 600){
+              xpos = -100;
+            }
+            drawSkyline();
+          }
+          void addBuilding() {
+            Building currentBuilding = new Building(xpos - (rBW + random(30, 100)), 80, 400, 3);
+            buildingList.add(currentBuilding);
+          }
+          
+          void drawSkyline() {
+            for (int i = 0; i < buildingList.size()-1; i++) {
+              Building currentBuilding = buildingList.get(i);
+              currentBuilding.drawBuilding();
+            }
+          }
+          
+            }
+          
+
+        </script> 
+    </head>
+    
+    <body>
+		<canvas id="mycanvas"></canvas>
+	</body>
+</html>
+    
